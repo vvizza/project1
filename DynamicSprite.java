@@ -11,13 +11,26 @@ public class DynamicSprite extends SolidSprite{
     private int timeBetweenFrame;
     private Direction direction;
 
-    public DynamicSprite(BufferedImage ImageIn, double xIn, double yIn, double widthIn, double heightIn){
+    private static volatile DynamicSprite instance = null;
+    
+    private DynamicSprite(BufferedImage ImageIn, double xIn, double yIn, double widthIn, double heightIn){
         super(ImageIn, xIn, yIn, widthIn, heightIn);
         this.isWalking = true;
         this.speed = 5;
         this.spriteSheetNumberOfColumn = 10;
         this.timeBetweenFrame = 200;
         this.direction = Direction.NORTH;
+    }
+
+    public final static DynamicSprite getInstance(BufferedImage ImageIn, double xIn, double yIn, double widthIn, double heightIn) {
+        if (DynamicSprite.instance == null) {
+            synchronized(DynamicSprite.class) {
+                if (DynamicSprite.instance == null) {
+                    DynamicSprite.instance = new DynamicSprite(ImageIn, xIn, yIn, widthIn, heightIn);
+                }
+            }
+        }
+        return DynamicSprite.instance;
     }
 
     public void setDirection(Direction directionIn){
@@ -85,7 +98,6 @@ public class DynamicSprite extends SolidSprite{
         }
         return true;
     }
-
 
     public void moveIfPossible(ArrayList<Sprite>environment){
         if(isMovingPossible(environment)){

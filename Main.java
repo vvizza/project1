@@ -16,7 +16,7 @@ public class Main extends JFrame{
         displayZoneFrame.setSize(400,600);
         displayZoneFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        DynamicSprite hero = new DynamicSprite(ImageIO.read(new File("assets/img/heroTileSheetLowRes.png")),250,350,48,50);
+        DynamicSprite hero = DynamicSprite.getInstance(ImageIO.read(new File("assets/img/heroTileSheetLowRes.png")),250,350,48,50);
 
         renderEngine = new RenderEngine();
         physicEngine = new PhysicEngine();
